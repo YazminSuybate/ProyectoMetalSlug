@@ -1,0 +1,42 @@
+# ===============================================
+# Unity-specific files and folders
+# ===============================================
+
+# Generated files
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/Assets/AssetStoreTools/
+/Assets/StreamingAssets/
+
+# Visual Studio / Rider cache and generated files
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.sln.DotSettings.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.meta
+.vs/
+.vsconfig
+
+# User settings and local data
+/UserSettings/
+/Logs/
+/MemoryCaptures/
+
+# ===============================================
+# OS and IDE-specific files (already included some)
+# ===============================================
+
+# VS Code files
+.vscode/
+
+# Ignore OSX metadata
+.DS_Store
