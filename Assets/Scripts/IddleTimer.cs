@@ -24,7 +24,9 @@ public class IdleTimer : MonoBehaviour
         bool isMoving = rb.velocity.magnitude > 0.1f;
         bool hasInput = Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0;
 
-        if (isMoving || hasInput)
+        bool isShooting = Input.GetKey(KeyCode.X) || Input.GetButton("Fire1");
+
+        if (isMoving || hasInput || isShooting  )
         {
             timeSinceLastInput = 0f;
         }

@@ -4,7 +4,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public float jumpForce = 500f;
 
+    public CameraFollow cameraFollow;
+
     public float moveSpeed = 5f;
+
+    public GameObject bulletPrefab;
+
+    public Transform firePoint;
 
     public Animator torsoAnim;
     public Animator legsAnim;
@@ -25,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("Arrastra los componentes Animator de Torso y Piernas al Inspector.");
         }
+
+        if (cameraFollow == null)
+        {
+            cameraFollow = FindObjectOfType<CameraFollow>();
+        }
     }
 
     void Update()
@@ -32,6 +43,29 @@ public class PlayerMovement : MonoBehaviour
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+
+
+        if (cameraFollow != null)
+        {
+            float minPlayerX = cameraFollow.GetMinPlayerX();
+            Vector3 currentPosition = transform.position;
+
+            if (currentPosition.x < minPlayerX)
+            {
+                currentPosition.x = minPlayerX;
+                transform.position = currentPosition;
+
+                if (rb.velocity.x < 0)
+                {
+                    rb.velocity = new Vector2(0, rb.velocity.y);
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Shoot();
+        }
 
         if (moveInput > 0)
         {
@@ -48,17 +82,49 @@ public class PlayerMovement : MonoBehaviour
         torsoAnim.SetBool("IsRunning", isRunning);
 
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded && Input.GetKeyDown(KeyCode.Z))
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
-            rb.AddForce(new Vector2(0f, jumpForce));
-
-            legsAnim.SetTrigger("Jump");
-            torsoAnim.SetTrigger("Jump");
+            Jump();
         }
 
         bool isJumping = !isGrounded && rb.velocity.y > 0.1f;
         bool isFalling = !isGrounded && rb.velocity.y < -0.1f;
+    }
+
+    void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(new Vector2(0f, jumpForce));
+
+        legsAnim.SetTrigger("Jump");
+        torsoAnim.SetTrigger("Jump");
+    }
+
+    void Shoot()
+    {
+        torsoAnim.SetTrigger("Shoot");
+
+        if (bulletPrefab != null && firePoint != null)
+        {
+            float directionX = playerVisuals.localScale.x > 0 ? 1f : -1f;
+
+            Vector3 spawnPosition = firePoint.position;
+
+            spawnPosition.x += 0.5f * directionX;
+
+            GameObject bulletObject = Instantiate(bulletPrefab, spawnPosition, firePoint.rotation);
+
+            Bullet bulletScript = bulletObject.GetComponent<Bullet>();
+
+            if (bulletScript != null)
+            {
+                bulletScript.Initialize(directionX);
+            }
+        }
+        else
+        {
+            Debug.LogError("Faltan referencias de 'bulletPrefab' o 'firePoint'.");
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
