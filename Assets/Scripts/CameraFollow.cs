@@ -21,7 +21,11 @@ public class CameraFollow : MonoBehaviour
 
         cameraHalfWidth = Camera.main.aspect * Camera.main.orthographicSize;
 
-        transform.position = new Vector3(initialCameraX, transform.position.y, transform.position.z);
+        float idealCameraX = target.position.x + cameraHalfWidth - playerMarginFromEdge;
+
+        float finalInitialX = Mathf.Clamp(idealCameraX, initialCameraX, maxX);
+
+        transform.position = new Vector3(finalInitialX, transform.position.y, transform.position.z);
 
         currentMinX = transform.position.x;
     }
@@ -30,11 +34,9 @@ public class CameraFollow : MonoBehaviour
     {
         if (target == null) return;
 
-        float targetX = target.position.x + cameraHalfWidth - playerMarginFromEdge;
+        float desiredFollowX = target.position.x + cameraHalfWidth - playerMarginFromEdge;
 
-        currentMinX = Mathf.Max(currentMinX, targetX);
-
-        float desiredX = Mathf.Clamp(currentMinX, currentMinX, maxX);
+        float desiredX = Mathf.Clamp(desiredFollowX, initialCameraX, maxX);
 
         Vector3 desiredPosition = new Vector3(desiredX, transform.position.y, transform.position.z);
 
