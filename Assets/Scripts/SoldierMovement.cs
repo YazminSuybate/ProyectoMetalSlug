@@ -123,7 +123,11 @@ public class SoldierMovement : MonoBehaviour
             Jump();
         }
 
-        bool isRunning = !isAttacking;
+        // 1. Comprueba si el soldado se está moviendo (usando una pequeña tolerancia de 0.1f)
+        bool isMovingHorizontally = Mathf.Abs(rb.velocity.x) > 0.1f;
+
+        // 2. Está "Corriendo" si se está moviendo Y NO está atacando
+        bool isRunning = isMovingHorizontally && !isAttacking;
 
         if (animator != null)
         {
