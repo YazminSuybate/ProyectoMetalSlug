@@ -84,23 +84,21 @@ public class PlayerMovement : MonoBehaviour
         legsAnim.SetBool("IsGrounded", isGrounded);
         torsoAnim.SetBool("IsGrounded", isGrounded);
 
+        bool isAirborne = !isGrounded;
+
+        torsoAnim.SetBool("IsJumping", isAirborne);
+        legsAnim.SetBool("IsJumping", isAirborne);
 
         if (isGrounded && Input.GetKeyDown(KeyCode.Z))
         {
             Jump();
         }
-
-        bool isJumping = !isGrounded && rb.velocity.y > 0.1f;
-        bool isFalling = !isGrounded && rb.velocity.y < -0.1f;
     }
 
     void Jump()
     {
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(new Vector2(0f, jumpForce));
-
-        legsAnim.SetTrigger("Jump");
-        torsoAnim.SetTrigger("Jump");
     }
 
     void Shoot()
