@@ -50224,7 +50224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651958fa1a112694b9e2dbbad9ed7ee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 600
+  jumpForce: 550
   cameraFollow: {fileID: 519420033}
   moveSpeed: 5
   bulletPrefab: {fileID: 5075725341782586542, guid: 5d205a055d5797045bc802db3e3fa766, type: 3}

@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         torsoAnim.SetBool("IsRunning", isRunning);
 
         bool isAirborne = !IsGrounded;
-        bool isMovingVertically = Mathf.Abs(rb.velocity.y) > 10f;
+        bool isMovingVertically = Mathf.Abs(rb.velocity.y) > 5f;
 
         bool isJumpingAnimation = isAirborne && isMovingVertically;
 
