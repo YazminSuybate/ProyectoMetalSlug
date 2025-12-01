@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4810116774437378859}
+  health: 2
   isDead: 0
 --- !u!114 &-378906245802653739
 MonoBehaviour:
@@ -265,6 +266,10 @@ MonoBehaviour:
   moveSpeed: 2
   jumpForce: 400
   patrolTime: 3
+  detectionRange: 7
+  attackRange: 3
+  fireRate: 1
+  bulletPrefab: {fileID: 5075725341782586542, guid: 5d205a055d5797045bc802db3e3fa766, type: 3}
   wallCheckPoint: {fileID: 3723017093054556643}
   wallCheckDistance: 0.5
   whatIsGround:

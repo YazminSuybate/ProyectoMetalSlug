@@ -6,7 +6,10 @@ public class SoldierHealth : MonoBehaviour
     public Animator animator;
     private SpriteRenderer spriteRenderer;
 
+    public int health = 2;
+
     private const string DeathTrigger = "Die";
+    private const string DeathTypeParam = "DeathType";
     private const float TotalDeathTime = 3.0f;
     private const float FlickerDuration = 2.0f;
     private const float FlickerStartDelay = TotalDeathTime - FlickerDuration;
@@ -17,10 +20,20 @@ public class SoldierHealth : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
-    public void TakeHit()
+    public void TakeDamage(int damage = 1)
     {
         if (isDead) return;
 
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
         isDead = true;
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -38,6 +51,10 @@ public class SoldierHealth : MonoBehaviour
 
         if (animator != null)
         {
+            int randomDeath = Random.Range(0, 2);
+
+            animator.SetInteger(DeathTypeParam, randomDeath);
+
             animator.SetTrigger(DeathTrigger);
         }
 
