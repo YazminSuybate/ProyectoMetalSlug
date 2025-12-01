@@ -8,42 +8,42 @@ public class SoldierMovement : MonoBehaviour
     public float jumpForce = 400f;
 
     [Header("Patrol")]
-    public float patrolTime = 3f; 
+    public float patrolTime = 3f;
 
     [Header("IA/Melee Attack")]
-    public float detectionRange = 7f; 
+    public float detectionRange = 7f;
     // Rango de ataque CORTÍSIMO para el cuchillo (ajustar en Unity)
-    public float attackRange = 0.5f; 
+    public float attackRange = 0.5f;
     // Tasa de ataque: ataques por segundo
-    public float attackRate = 1f; 
+    public float attackRate = 1f;
     // Daño que hace el ataque melee
-    public int meleeDamage = 1; 
+    public int meleeDamage = 1;
     // ¡ELIMINADO! public GameObject bulletPrefab; 
 
     [Header("Obstacle Check")]
-    public Transform wallCheckPoint; 
-    public float wallCheckDistance = 0.5f; 
+    public Transform wallCheckPoint;
+    public float wallCheckDistance = 0.5f;
     public LayerMask whatIsGround;
     // Capa del Jugador para el OverlapCircle (DEBE ASIGNARSE en Unity)
-    public LayerMask whatIsPlayer; 
+    public LayerMask whatIsPlayer;
 
     [Header("References")]
-    public Animator animator; 
-    public Transform soldierVisuals; 
+    public Animator animator;
+    public Transform soldierVisuals;
 
     // --- Variables Privadas ---
     private Rigidbody2D rb;
     private bool isGrounded;
-    private int direction = 1; 
+    private int direction = 1;
     private float patrolTimer;
     private float attackTimer; // Temporizador para controlar el ataque
-    private Transform player; 
-    private bool isAttacking = false; 
-    
+    private Transform player;
+    private bool isAttacking = false;
+
     // CONSTANTES
-    private const string IsRunningParam = "IsRunning"; 
-    private const string JumpTrigger = "Jump"; 
-    private const string AttackTrigger = "Attack"; 
+    private const string IsRunningParam = "IsRunning";
+    private const string JumpTrigger = "Jump";
+    private const string AttackTrigger = "Attack";
     private const string PlayerTag = "Player"; // Tag del jugador
 
     void Awake()
@@ -53,15 +53,15 @@ public class SoldierMovement : MonoBehaviour
         {
             Debug.LogError("El componente Rigidbody2D no se encuentra en el objeto.");
         }
-        
+
         if (animator == null)
         {
-            animator = GetComponent<Animator>(); 
+            animator = GetComponent<Animator>();
         }
 
         if (soldierVisuals == null)
         {
-             soldierVisuals = transform;
+            soldierVisuals = transform;
         }
     }
 
@@ -69,7 +69,7 @@ public class SoldierMovement : MonoBehaviour
     {
         patrolTimer = patrolTime;
         attackTimer = 1f / attackRate;
-        
+
         // Buscar el objeto del jugador por Tag
         GameObject playerObj = GameObject.FindGameObjectWithTag(PlayerTag);
         if (playerObj != null)
@@ -81,7 +81,7 @@ public class SoldierMovement : MonoBehaviour
     void Update()
     {
         SoldierHealth health = GetComponent<SoldierHealth>();
-        if (health != null && health.isDead) return; 
+        if (health != null && health.isDead) return;
 
         // 1. Lógica de IA - Determinar el comportamiento
         if (player != null)
@@ -110,12 +110,12 @@ public class SoldierMovement : MonoBehaviour
         }
         else
         {
-            Patrol(); 
+            Patrol();
         }
-        
+
         // 2. Ejecutar movimiento y volteo basado en la dirección
         ApplyMovementAndFlip();
-        
+
         // 3. Chequeo de obstáculos (Salto)
         bool hitWall = CheckForWall();
         if (isGrounded && hitWall && !isAttacking)
@@ -123,8 +123,8 @@ public class SoldierMovement : MonoBehaviour
             Jump();
         }
 
-        // Animación: Actualizar el parámetro IsRunning
-        bool isRunning = Mathf.Abs(rb.velocity.x) > 0.1f && !isAttacking;
+        bool isRunning = !isAttacking;
+
         if (animator != null)
         {
             animator.SetBool(IsRunningParam, isRunning);
@@ -137,7 +137,7 @@ public class SoldierMovement : MonoBehaviour
     {
         isAttacking = true;
         attackTimer -= Time.deltaTime;
-        
+
         if (attackTimer <= 0)
         {
             MeleeAttack(); // Ejecuta el ataque
@@ -156,39 +156,39 @@ public class SoldierMovement : MonoBehaviour
         // 2. Detectar al jugador en el rango de ataque (OverlapCircle)
         // Se usa la posición del soldado y la LayerMask del jugador.
         Collider2D hitPlayer = Physics2D.OverlapCircle(transform.position, attackRange, whatIsPlayer);
-        
+
         if (hitPlayer != null && hitPlayer.CompareTag(PlayerTag))
         {
             // ASUMIDO: El jugador tiene un script PlayerHealth con una función TakeDamage(int)
             // Debes cambiar PlayerHealth por el nombre real de tu script de salud del jugador.
             // Y la función por la que use tu script.
-            
+
             // Ejemplo (ASUMIDO):
             // PlayerHealth playerHealth = hitPlayer.GetComponent<PlayerHealth>();
             // if (playerHealth != null)
             // {
             //     playerHealth.TakeDamage(meleeDamage);
             // } 
-            
+
             // Usaremos Debug.Log temporalmente hasta que se defina PlayerHealth
             Debug.Log("¡Cuchillazo! El soldado intentó dañar al jugador.");
         }
     }
-    
+
     // Método para dibujar el rango de ataque en el Editor (ayuda visual)
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
-    
+
     // --- MÉTODOS DE IA Y MOVIMIENTO (Sin cambios funcionales) ---
 
     void ChasePlayer()
     {
         direction = (player.position.x > transform.position.x) ? 1 : -1;
     }
-    
+
     void FacePlayer()
     {
         if (player.position.x > transform.position.x)
@@ -223,7 +223,7 @@ public class SoldierMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
         }
-        
+
         if (!isAttacking)
         {
             if (direction > 0)
@@ -236,7 +236,7 @@ public class SoldierMovement : MonoBehaviour
             }
         }
     }
-    
+
     bool CheckForWall()
     {
         if (wallCheckPoint == null) return false;
@@ -248,11 +248,11 @@ public class SoldierMovement : MonoBehaviour
         return hit.collider != null;
     }
 
-    public void Jump() 
+    public void Jump()
     {
-        if (rb == null) return; 
+        if (rb == null) return;
 
-        rb.velocity = new Vector2(rb.velocity.x, 0f); 
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(new Vector2(0f, jumpForce));
 
         if (animator != null)
