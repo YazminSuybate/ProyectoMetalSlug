@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 6035907272476261162}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.34, y: -0.7, z: -0.041612253}
-  m_LocalScale: {x: 3.277247, y: 3.9519403, z: 1}
+  m_LocalPosition: {x: 0.4882, y: -0.74, z: -0.041612253}
+  m_LocalScale: {x: 2.1793692, y: 2.533589, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7552133284609289806}
@@ -106,6 +106,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &6219654167195235809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3723017093054556643}
+  m_Layer: 0
+  m_Name: WallCheckPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3723017093054556643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219654167195235809}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.35, y: -1.1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7552133284609289806}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8030005060627756056
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,6 +149,7 @@ GameObject:
   - component: {fileID: 8101776506713087599}
   - component: {fileID: 5793451991326819768}
   - component: {fileID: 1469164714839322371}
+  - component: {fileID: -378906245802653739}
   m_Layer: 0
   m_Name: Enemigo_Soldado
   m_TagString: Enemy
@@ -139,6 +171,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4711618694200673829}
+  - {fileID: 3723017093054556643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &8101776506713087599
@@ -173,8 +206,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.41760182, y: -0.6878146}
-  m_Size: {x: 0.64738894, y: 1.2947776}
+  m_Offset: {x: 0.5074246, y: -0.79111063}
+  m_Size: {x: 0.2880988, y: 0.78278947}
   m_Direction: 0
 --- !u!50 &5793451991326819768
 Rigidbody2D:
@@ -216,3 +249,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4810116774437378859}
+  isDead: 0
+--- !u!114 &-378906245802653739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8030005060627756056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5403cf9f21782429d469307e0f93e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  jumpForce: 400
+  patrolTime: 3
+  wallCheckPoint: {fileID: 3723017093054556643}
+  wallCheckDistance: 0.5
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
+  animator: {fileID: 4810116774437378859}
+  soldierVisuals: {fileID: 7552133284609289806}

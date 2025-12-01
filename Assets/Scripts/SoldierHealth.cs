@@ -6,7 +6,7 @@ public class SoldierHealth : MonoBehaviour
 
     private const string DeathTrigger = "Die";
 
-    private bool isDead = false;
+    public bool isDead = false;
 
     public void TakeHit()
     {
