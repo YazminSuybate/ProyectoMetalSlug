@@ -16,7 +16,8 @@ public class PlayerMovement : MonoBehaviour
     public Animator legsAnim;
 
     private Rigidbody2D rb;
-    private bool isGrounded;
+    private int groundContactCount = 0;
+    private bool IsGrounded => groundContactCount > 0;
 
     public Transform playerVisuals;
 
@@ -81,15 +82,18 @@ public class PlayerMovement : MonoBehaviour
         legsAnim.SetBool("IsRunning", isRunning);
         torsoAnim.SetBool("IsRunning", isRunning);
 
-        legsAnim.SetBool("IsGrounded", isGrounded);
-        torsoAnim.SetBool("IsGrounded", isGrounded);
+        bool isAirborne = !IsGrounded;
+        bool isMovingVertically = Mathf.Abs(rb.velocity.y) > 10f;
 
-        bool isAirborne = !isGrounded;
+        bool isJumpingAnimation = isAirborne && isMovingVertically;
 
-        torsoAnim.SetBool("IsJumping", isAirborne);
-        legsAnim.SetBool("IsJumping", isAirborne);
+        legsAnim.SetBool("IsGrounded", IsGrounded);
+        torsoAnim.SetBool("IsGrounded", IsGrounded);
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.Z))
+        torsoAnim.SetBool("IsJumping", isJumpingAnimation);
+        legsAnim.SetBool("IsJumping", isJumpingAnimation);
+
+        if (IsGrounded && Input.GetKeyDown(KeyCode.Z))
         {
             Jump();
         }
@@ -132,10 +136,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Suelo"))
         {
-            Vector2 playerBottom = (Vector2)transform.position + GetComponent<Collider2D>().offset - (Vector2)GetComponent<Collider2D>().bounds.extents;
             if (col.GetContact(0).normal.y > 0.5f)
             {
-                isGrounded = true;
+                groundContactCount++;
             }
         }
     }
@@ -144,7 +147,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Suelo"))
         {
-            isGrounded = false;
+            if (groundContactCount > 0)
+            {
+                groundContactCount--;
+            }
         }
     }
 }
