@@ -81,6 +81,9 @@ public class PlayerMovement : MonoBehaviour
         legsAnim.SetBool("IsRunning", isRunning);
         torsoAnim.SetBool("IsRunning", isRunning);
 
+        legsAnim.SetBool("IsGrounded", isGrounded);
+        torsoAnim.SetBool("IsGrounded", isGrounded);
+
 
         if (isGrounded && Input.GetKeyDown(KeyCode.Z))
         {
