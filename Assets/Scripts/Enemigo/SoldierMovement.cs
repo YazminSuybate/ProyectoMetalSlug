@@ -4,16 +4,19 @@ public class SoldierMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 2f;
+    public float jumpForce = 400f;
 
     [Header("IA/Melee Attack")]
     public float detectionRange = 7f;
     public float attackRange = 0.5f;
     public float attackRate = 1f;
-    public int meleeDamage = 1;
+    public int meleeDamage = 100;
 
     [Header("Obstacle Check")]
     public Transform wallCheckPoint;
     public float wallCheckDistance = 0.5f;
+    public LayerMask whatIsGround;
+    public LayerMask whatIsPlayer;
 
     [Header("References")]
     public Animator animator;
@@ -33,6 +36,7 @@ public class SoldierMovement : MonoBehaviour
     private bool isPatrolMoving = true;
     private Transform player;
     private const string IsRunningParam = "IsRunning";
+    private const string JumpTrigger = "Jump";
     private const string AttackTrigger = "Attack";
     private const string PlayerTag = "Player";
 
@@ -80,9 +84,9 @@ public class SoldierMovement : MonoBehaviour
 
             if (distanceToPlayer <= attackRange)
             {
+                AttemptMeleeAttack();
                 StopMovement();
                 FacePlayer();
-                AttemptMeleeAttack();
             }
             else if (distanceToPlayer <= detectionRange)
             {
@@ -144,11 +148,16 @@ public class SoldierMovement : MonoBehaviour
         float attackOffsetDistance = 0.3f;
         Vector2 attackPosition = new Vector2(transform.position.x + direction * attackOffsetDistance, transform.position.y);
 
-        Collider2D hitPlayer = Physics2D.OverlapCircle(attackPosition, attackRange);
+        Collider2D hitPlayer = Physics2D.OverlapCircle(attackPosition, attackRange, whatIsPlayer);
 
         if (hitPlayer != null && hitPlayer.CompareTag(PlayerTag))
         {
             PlayerHealth playerHealth = hitPlayer.GetComponent<PlayerHealth>();
+
+            if (playerHealth == null)
+            {
+                playerHealth = hitPlayer.GetComponentInParent<PlayerHealth>();
+            }
 
             if (playerHealth != null)
             {
@@ -162,14 +171,7 @@ public class SoldierMovement : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-
-        float attackOffsetDistance = 0.3f;
-
-        int currentFacingDirection = direction != 0 ? direction : (int)Mathf.Sign(soldierVisuals.localScale.x) * -1;
-
-        Vector2 attackPosition = new Vector2(transform.position.x + currentFacingDirection * attackOffsetDistance, transform.position.y);
-
-        Gizmos.DrawWireSphere(attackPosition, attackRange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     void ChasePlayer()
@@ -245,9 +247,22 @@ public class SoldierMovement : MonoBehaviour
 
         Vector2 rayDirection = new Vector2(direction, 0);
         Debug.DrawRay(wallCheckPoint.position, rayDirection * wallCheckDistance, Color.yellow);
-        RaycastHit2D hit = Physics2D.Raycast(wallCheckPoint.position, rayDirection, wallCheckDistance);
+        RaycastHit2D hit = Physics2D.Raycast(wallCheckPoint.position, rayDirection, wallCheckDistance, whatIsGround);
 
         return hit.collider != null;
+    }
+
+    public void Jump()
+    {
+        if (rb == null) return;
+
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(new Vector2(0f, jumpForce));
+
+        if (animator != null)
+        {
+            animator.SetTrigger(JumpTrigger);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)

@@ -264,12 +264,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  jumpForce: 400
   detectionRange: 7
   attackRange: 1.4
   attackRate: 1
-  meleeDamage: 100
+  meleeDamage: 1
   wallCheckPoint: {fileID: 3723017093054556643}
   wallCheckDistance: 0.5
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 8
   animator: {fileID: 4810116774437378859}
   soldierVisuals: {fileID: 7552133284609289806}
   patrolTime: 3

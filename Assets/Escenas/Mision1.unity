@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 420687839}
   - component: {fileID: 420687838}
   - component: {fileID: 420687840}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Torso-Quieto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 815467437}
   - component: {fileID: 815467438}
   - component: {fileID: 815467439}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Piernas-Quieto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50142,7 +50142,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1579643580}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50177,7 +50177,7 @@ GameObject:
   - component: {fileID: 1615851372}
   - component: {fileID: 1615851375}
   - component: {fileID: 1615851376}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player_Marco
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -50305,7 +50305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1771927447}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Graficos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
