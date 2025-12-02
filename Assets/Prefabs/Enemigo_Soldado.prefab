@@ -263,20 +263,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5403cf9f21782429d469307e0f93e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  jumpForce: 400
+  moveSpeed: 3
   detectionRange: 7
-  attackRange: 1.3
+  attackRange: 1.4
   attackRate: 1
-  meleeDamage: 1
+  meleeDamage: 100
   wallCheckPoint: {fileID: 3723017093054556643}
   wallCheckDistance: 0.5
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 0
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 0
   animator: {fileID: 4810116774437378859}
   soldierVisuals: {fileID: 7552133284609289806}
   patrolTime: 3
