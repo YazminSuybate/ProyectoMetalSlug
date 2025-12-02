@@ -41,8 +41,8 @@ public class SeleccionMisionManager : MonoBehaviour
             panelFade.color = new Color(panelFade.color.r, panelFade.color.g, panelFade.color.b, alpha);
 
             yield return null;
-
-            SceneManager.LoadScene(sceneName);
         }
+
+        SceneManager.LoadScene(sceneName); 
     }
 }
