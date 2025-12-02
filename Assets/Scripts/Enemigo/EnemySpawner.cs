@@ -6,8 +6,8 @@ public class EnemySpawner : MonoBehaviour
     [Header("Configuración de Spawn")]
     public GameObject enemyPrefab;
 
-    public float minSpawnTime = 5f;
-    public float maxSpawnTime = 10f;
+    public float minSpawnTime = 1f;
+    public float maxSpawnTime = 3f;
 
     [Header("Posiciones de Spawn")]
     public Transform[] spawnPoints;

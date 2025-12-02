@@ -10,8 +10,8 @@ public class SoldierHealth : MonoBehaviour
 
     private const string DeathTrigger = "Die";
     private const string DeathTypeParam = "DeathType";
-    private const float TotalDeathTime = 3.0f;
-    private const float FlickerDuration = 2.0f;
+    private const float TotalDeathTime = 1.0f;
+    private const float FlickerDuration = 0.5f;
     private const float FlickerStartDelay = TotalDeathTime - FlickerDuration;
     public bool isDead = false;
 
