@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private int groundContactCount = 0;
     private bool IsGrounded => groundContactCount > 0;
 
+    private bool canMove = false;
+
     public Transform playerVisuals;
 
     void Start()
@@ -39,8 +41,32 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetMovementEnabled(bool state)
+    {
+        canMove = state;
+        if (!canMove)
+        {
+            if (rb != null)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
+            if (legsAnim != null) legsAnim.SetBool("IsRunning", false);
+            if (torsoAnim != null) torsoAnim.SetBool("IsRunning", false);
+        }
+    }
+
     void Update()
     {
+        if (!canMove)
+        {
+            if (rb.velocity.x != 0)
+            {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            }
+            return;
+        }
+
+
         float moveInput = Input.GetAxisRaw("Horizontal");
 
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);

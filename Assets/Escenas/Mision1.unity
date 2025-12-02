@@ -319,6 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185065115f7c42c4890d75ad9816fae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMovement: {fileID: 0}
   letterObjects:
   - {fileID: 445927783}
   - {fileID: 1250044687}
@@ -332,6 +333,8 @@ MonoBehaviour:
   animationDuration: 0.8
   startOffset: {x: 0, y: 0, z: 10}
   initialScale: 0.1
+  visibleDuration: 5
+  fadeOutDuration: 0.5
 --- !u!4 &53139537
 Transform:
   m_ObjectHideFlags: 0
@@ -961,7 +964,7 @@ Transform:
   m_GameObject: {fileID: 910182608}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.38987237, y: -0.14924878, z: -0.05013288}
+  m_LocalPosition: {x: 0.62, y: -0.12, z: -0.05013288}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

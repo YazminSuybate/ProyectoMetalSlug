@@ -4,14 +4,20 @@ using System.Collections.Generic;
 
 public class MissionTextAnimator : MonoBehaviour
 {
+    public PlayerMovement playerMovement;
+
     public List<GameObject> letterObjects;
 
     [Header("Configuración de la Animación")]
-    public float delayBetweenLetters = 0.2f;
-    public float animationDuration = 0.8f;
+    public float delayBetweenLetters = 0.1f;
+    public float animationDuration = 0.4f;
     [Tooltip("Offset (X/Y) de la posición inicial. Ignora Z en 2D.")]
     public Vector3 startOffset = new Vector3(0, -5, 0);
     public float initialScale = 0.1f;
+
+    [Header("Desaparición")]
+    public float visibleDuration = 5f;
+    public float fadeOutDuration = 0.5f;
 
     private Vector3[] targetPositions;
     private Vector3[] targetScales;
@@ -38,8 +44,6 @@ public class MissionTextAnimator : MonoBehaviour
                 continue;
             }
 
-            letter.SetActive(false);
-
             Vector3 startPos = targetPositions[i] + new Vector3(startOffset.x, startOffset.y, 0);
             letter.transform.localPosition = startPos;
 
@@ -48,6 +52,20 @@ public class MissionTextAnimator : MonoBehaviour
             Color startColor = spriteRenderers[i].color;
             startColor.a = 0f;
             spriteRenderers[i].color = startColor;
+        }
+
+        if (playerMovement == null)
+        {
+            playerMovement = FindObjectOfType<PlayerMovement>();
+            if (playerMovement == null)
+            {
+                Debug.LogError("No se encontró el script PlayerMovement. Asegúrate de asignarlo o de que esté activo en la escena.");
+            }
+        }
+
+        if (playerMovement != null)
+        {
+            playerMovement.SetMovementEnabled(false);
         }
     }
 
@@ -69,24 +87,18 @@ public class MissionTextAnimator : MonoBehaviour
             Vector3 targetScale = targetScales[i];
 
             Color startColor = sr.color;
-            Color targetColor = targetPosition == currentLetter.transform.localPosition ?
-                                sr.color :
-                                new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
-
-            currentLetter.SetActive(true);
+            Color targetColor = sr.color;
+            targetColor.a = 1f;
 
             float elapsedTime = 0f;
 
             while (elapsedTime < animationDuration)
             {
                 float t = elapsedTime / animationDuration;
-
                 float curveT = 1f - Mathf.Pow(1f - t, 2);
 
                 currentLetter.transform.localPosition = Vector3.Lerp(startPosition, targetPosition, curveT);
-
                 currentLetter.transform.localScale = Vector3.Lerp(startScale, targetScale, curveT);
-
                 sr.color = Color.Lerp(startColor, targetColor, t);
 
                 elapsedTime += Time.deltaTime;
@@ -101,5 +113,41 @@ public class MissionTextAnimator : MonoBehaviour
         }
 
         Debug.Log("Animación de 'MISIÓN 1' completada.");
+
+        if (playerMovement != null)
+        {
+            playerMovement.SetMovementEnabled(true);
+            Debug.Log("Movimiento del jugador habilitado.");
+        }
+
+        yield return new WaitForSeconds(visibleDuration);
+
+        float fadeTimer = 0f;
+
+        while (fadeTimer < fadeOutDuration)
+        {
+            float t = fadeTimer / fadeOutDuration;
+            for (int i = 0; i < letterObjects.Count; i++)
+            {
+                SpriteRenderer sr = spriteRenderers[i];
+                Color currentColor = sr.color;
+                currentColor.a = Mathf.Lerp(1f, 0f, t);
+                sr.color = currentColor;
+            }
+            fadeTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        for (int i = 0; i < letterObjects.Count; i++)
+        {
+            SpriteRenderer sr = spriteRenderers[i];
+            Color finalColor = sr.color;
+            finalColor.a = 0f;
+            sr.color = finalColor;
+
+            letterObjects[i].SetActive(false);
+        }
+
+        Debug.Log("Texto de misión desaparecido.");
     }
 }
