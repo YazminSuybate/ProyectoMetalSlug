@@ -17,16 +17,21 @@ public class PlayerHealth : MonoBehaviour
     public float fadeOutDuration = 1.0f;
     public CanvasGroup faderCanvasGroup;
 
+    [Header("Sprite Components")]
+    public SpriteRenderer[] spriteRenderers;
+
     private int currentHealth;
     private bool isDead = false;
     private bool isInvincible = false;
     private Vector3 deathPosition;
-    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         currentHealth = maxHealth;
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderers == null || spriteRenderers.Length == 0)
+        {
+            Debug.LogError("PlayerHealth requiere uno o más SpriteRenderers asignados en el Inspector.");
+        }
 
         if (faderCanvasGroup != null)
         {
@@ -39,18 +44,9 @@ public class PlayerHealth : MonoBehaviour
         if (isDead || isInvincible) return;
 
         currentHealth -= damage;
-        Debug.Log("Player ha recibido daño. Vidas restantes: " + currentHealth);
-
         deathPosition = transform.position;
 
-        if (currentHealth <= 0)
-        {
-            Die(true);
-        }
-        else
-        {
-            Die(false);
-        }
+        Die(false);
     }
 
     void Die(bool isGameOver)
@@ -63,24 +59,22 @@ public class PlayerHealth : MonoBehaviour
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null) rb.bodyType = RigidbodyType2D.Static;
 
-        if (spriteRenderer != null) spriteRenderer.enabled = false;
+        SetSpritesEnabled(false);
 
-        if (isGameOver)
-        {
-            StartCoroutine(GameOverSequence());
-        }
-        else
-        {
-            StartCoroutine(RespawnSequence());
-        }
+        StartCoroutine(RespawnSequence());
     }
 
     IEnumerator RespawnSequence()
     {
-        Debug.Log("Player ha muerto, iniciando secuencia de respawn...");
-
         yield return new WaitForSeconds(disappearDuration);
 
+        if (currentHealth <= 0)
+        {
+            StartCoroutine(GameOverSequence());
+            yield break;
+        }
+
+        // Respawn:
         transform.position = deathPosition;
 
         isDead = false;
@@ -98,29 +92,40 @@ public class PlayerHealth : MonoBehaviour
         isInvincible = true;
         float startTime = Time.time;
 
-        if (spriteRenderer == null)
+        if (spriteRenderers == null || spriteRenderers.Length == 0)
         {
             isInvincible = false;
             yield break;
         }
 
-        spriteRenderer.enabled = true;
+        SetSpritesEnabled(true);
 
         while (Time.time < startTime + invincibilityDuration)
         {
-            spriteRenderer.enabled = !spriteRenderer.enabled;
+            SetSpritesEnabled(!spriteRenderers[0].enabled);
             yield return new WaitForSeconds(blinkInterval);
         }
 
-        spriteRenderer.enabled = true;
+        SetSpritesEnabled(true);
         isInvincible = false;
-        Debug.Log("Invencibilidad terminada.");
+    }
+
+    void SetSpritesEnabled(bool enabled)
+    {
+        if (spriteRenderers != null)
+        {
+            foreach (SpriteRenderer sr in spriteRenderers)
+            {
+                if (sr != null)
+                {
+                    sr.enabled = enabled;
+                }
+            }
+        }
     }
 
     IEnumerator GameOverSequence()
     {
-        Debug.Log("Player ha muerto. No quedan vidas. Iniciando Game Over...");
-
         if (faderCanvasGroup != null)
         {
             float timer = 0f;

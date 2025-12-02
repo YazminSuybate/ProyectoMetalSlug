@@ -38,11 +38,6 @@ public class MissionTextAnimator : MonoBehaviour
             targetScales[i] = letter.transform.localScale;
 
             spriteRenderers[i] = letter.GetComponent<SpriteRenderer>();
-            if (spriteRenderers[i] == null)
-            {
-                Debug.LogError($"La letra {letter.name} no tiene un componente SpriteRenderer.");
-                continue;
-            }
 
             Vector3 startPos = targetPositions[i] + new Vector3(startOffset.x, startOffset.y, 0);
             letter.transform.localPosition = startPos;
@@ -57,10 +52,6 @@ public class MissionTextAnimator : MonoBehaviour
         if (playerMovement == null)
         {
             playerMovement = FindObjectOfType<PlayerMovement>();
-            if (playerMovement == null)
-            {
-                Debug.LogError("No se encontró el script PlayerMovement. Asegúrate de asignarlo o de que esté activo en la escena.");
-            }
         }
 
         if (playerMovement != null)
@@ -112,12 +103,9 @@ public class MissionTextAnimator : MonoBehaviour
             yield return new WaitForSeconds(delayBetweenLetters);
         }
 
-        Debug.Log("Animación de 'MISIÓN 1' completada.");
-
         if (playerMovement != null)
         {
             playerMovement.SetMovementEnabled(true);
-            Debug.Log("Movimiento del jugador habilitado.");
         }
 
         yield return new WaitForSeconds(visibleDuration);
@@ -147,7 +135,5 @@ public class MissionTextAnimator : MonoBehaviour
 
             letterObjects[i].SetActive(false);
         }
-
-        Debug.Log("Texto de misión desaparecido.");
     }
 }

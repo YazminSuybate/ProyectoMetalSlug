@@ -330,7 +330,7 @@ MonoBehaviour:
   - {fileID: 600671647}
   - {fileID: 2005138722}
   delayBetweenLetters: 0.1
-  animationDuration: 0.6
+  animationDuration: 0.4
   startOffset: {x: 0, y: 0, z: 10}
   initialScale: 0.1
   visibleDuration: 5
@@ -50904,6 +50904,9 @@ MonoBehaviour:
   gameOverSceneName: GameOverScene
   fadeOutDuration: 1
   faderCanvasGroup: {fileID: 0}
+  spriteRenderers:
+  - {fileID: 420687839}
+  - {fileID: 815467438}
 --- !u!1 &1771927446
 GameObject:
   m_ObjectHideFlags: 0

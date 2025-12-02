@@ -43,10 +43,6 @@ public class SoldierMovement : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
-        {
-            Debug.LogError("El componente Rigidbody2D no se encuentra en el objeto.");
-        }
 
         if (animator == null)
         {
@@ -163,8 +159,6 @@ public class SoldierMovement : MonoBehaviour
             {
                 playerHealth.TakeDamage(meleeDamage);
             }
-
-            Debug.Log("¡Cuchillazo! El soldado intentó dañar al jugador.");
         }
     }
 
