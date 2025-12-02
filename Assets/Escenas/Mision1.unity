@@ -329,8 +329,8 @@ MonoBehaviour:
   - {fileID: 1461133200}
   - {fileID: 600671647}
   - {fileID: 2005138722}
-  delayBetweenLetters: 0.2
-  animationDuration: 0.8
+  delayBetweenLetters: 0.1
+  animationDuration: 0.6
   startOffset: {x: 0, y: 0, z: 10}
   initialScale: 0.1
   visibleDuration: 5
@@ -50898,6 +50898,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
+  invincibilityDuration: 2
+  blinkInterval: 0.1
+  disappearDuration: 0.5
   gameOverSceneName: GameOverScene
   fadeOutDuration: 1
   faderCanvasGroup: {fileID: 0}
