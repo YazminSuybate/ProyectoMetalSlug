@@ -23,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform playerVisuals;
 
+    public GameTimer gameTimer;
+
+    private bool hasMoved = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -38,6 +42,10 @@ public class PlayerMovement : MonoBehaviour
         if (cameraFollow == null)
         {
             cameraFollow = FindObjectOfType<CameraFollow>();
+        }
+        if (gameTimer == null)
+        {
+            gameTimer = FindObjectOfType<GameTimer>();
         }
     }
 
@@ -68,6 +76,15 @@ public class PlayerMovement : MonoBehaviour
 
 
         float moveInput = Input.GetAxisRaw("Horizontal");
+
+        if (!hasMoved && Mathf.Abs(moveInput) > 0)
+        {
+            hasMoved = true;
+            if (gameTimer != null)
+            {
+                gameTimer.StartTimer();
+            }
+        }
 
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
