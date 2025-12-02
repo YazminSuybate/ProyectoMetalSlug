@@ -295,7 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelFade: {fileID: 1488365448}
-  nombreEscenaJuego: Mision1
+  nombreEscenaJuego: SeleccionMision
   duracionTransicion: 3
 --- !u!4 &1070540045
 Transform:
@@ -498,8 +498,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1488365447}
   - {fileID: 1030787255}
+  - {fileID: 1488365447}
   - {fileID: 2041425770}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
