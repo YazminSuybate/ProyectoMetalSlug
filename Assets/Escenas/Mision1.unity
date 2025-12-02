@@ -50176,6 +50176,7 @@ GameObject:
   - component: {fileID: 1615851373}
   - component: {fileID: 1615851372}
   - component: {fileID: 1615851375}
+  - component: {fileID: 1615851376}
   m_Layer: 0
   m_Name: Player_Marco
   m_TagString: Player
@@ -50281,6 +50282,20 @@ MonoBehaviour:
   torsoAnim: {fileID: 420687838}
   legsAnim: {fileID: 815467439}
   playerVisuals: {fileID: 1771927447}
+--- !u!114 &1615851376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615851371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e55b13348513e7479221694c36b5058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  gameOverSceneName: GameOverScene
 --- !u!1 &1771927446
 GameObject:
   m_ObjectHideFlags: 0

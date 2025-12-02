@@ -150,6 +150,13 @@ public class SoldierMovement : MonoBehaviour
 
         if (hitPlayer != null && hitPlayer.CompareTag(PlayerTag))
         {
+            PlayerHealth playerHealth = hitPlayer.GetComponent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(meleeDamage);
+            }
+
             Debug.Log("¡Cuchillazo! El soldado intentó dañar al jugador.");
         }
     }

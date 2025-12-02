@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4810116774437378859}
-  health: 2
+  health: 1
   isDead: 0
 --- !u!114 &-378906245802653739
 MonoBehaviour:
@@ -265,9 +265,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   jumpForce: 400
-  patrolTime: 3
   detectionRange: 7
-  attackRange: 2
+  attackRange: 1.3
   attackRate: 1
   meleeDamage: 1
   wallCheckPoint: {fileID: 3723017093054556643}
@@ -280,3 +279,5 @@ MonoBehaviour:
     m_Bits: 0
   animator: {fileID: 4810116774437378859}
   soldierVisuals: {fileID: 7552133284609289806}
+  patrolTime: 3
+  idleTime: 2
