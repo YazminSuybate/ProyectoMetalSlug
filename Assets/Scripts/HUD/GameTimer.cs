@@ -3,17 +3,20 @@ using UnityEngine;
 public class GameTimer : MonoBehaviour
 {
     [Header("Sprites de Números")]
-    public Sprite[] numberSprites; 
+    public Sprite[] numberSprites;
 
     [Header("Dígitos del HUD")]
-    public SpriteRenderer minuteRenderer; 
+    public SpriteRenderer minuteRenderer;
     public SpriteRenderer secondTensRenderer;
     public SpriteRenderer secondUnitsRenderer;
 
     [Header("Configuración de Temporizador")]
-    public float startTimeSeconds = 60f; 
+    public float startTimeSeconds = 60f;
 
-    private float currentTime; 
+    [Header("Referencias de Juego")]
+    public PlayerHealth playerHealth;
+
+    private float currentTime;
     private bool isRunning = false;
 
     void Start()
@@ -43,10 +46,21 @@ public class GameTimer : MonoBehaviour
 
             if (currentTime <= 0)
             {
-                currentTime = 0; 
+                currentTime = 0;
+                StopTimer();
+
+                TriggerTimeUpGameOver();
             }
 
             UpdateTimerDisplay((int)currentTime);
+        }
+    }
+
+    private void TriggerTimeUpGameOver()
+    {
+        if (playerHealth != null)
+        {
+            playerHealth.TriggerGameOver();
         }
     }
 

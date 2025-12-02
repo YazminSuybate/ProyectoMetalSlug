@@ -376,8 +376,8 @@ Transform:
   m_GameObject: {fileID: 109017980}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.93, y: 2.45, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -3.8, y: 1.32, z: -1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506672572}
@@ -420,8 +420,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1311955179
+  m_SortingLayer: 1
   m_SortingOrder: 20
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -581,8 +581,8 @@ Transform:
   m_GameObject: {fileID: 434007047}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.55, y: 2.47, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -4.59, y: 1.32, z: -1}
+  m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1506672572}
@@ -625,8 +625,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1311955179
+  m_SortingLayer: 1
   m_SortingOrder: 20
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -814,7 +814,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1506672572}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
@@ -51025,14 +51026,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1506672571}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.084721, y: 1.4521469, z: -0.11555059}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10.15, y: 2.35, z: 9.884449}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 434007048}
   - {fileID: 109017981}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 519420032}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1579643579
 GameObject:
@@ -51383,11 +51384,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fc317fad1de0345ba1080b4ffbe1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberSprites: []
+  numberSprites:
+  - {fileID: -753658005, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: -154070184, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: -2070074544, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: 433093813, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: 850707764, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: 848078360, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: -119414759, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: -686436747, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: -416998717, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
+  - {fileID: -1018106304, guid: 434c351dae2334f479c2cca942dcd3c2, type: 3}
   minuteRenderer: {fileID: 0}
   secondTensRenderer: {fileID: 434007049}
   secondUnitsRenderer: {fileID: 109017982}
   startTimeSeconds: 60
+  playerHealth: {fileID: 1615851376}
 --- !u!4 &1871037244
 Transform:
   m_ObjectHideFlags: 0
@@ -51544,5 +51556,4 @@ SceneRoots:
   - {fileID: 1027554633}
   - {fileID: 910182609}
   - {fileID: 53139537}
-  - {fileID: 1506672572}
   - {fileID: 1871037244}

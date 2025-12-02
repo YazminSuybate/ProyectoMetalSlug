@@ -54,14 +54,21 @@ public class PlayerHealth : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        PlayerMovement movement = GetComponent<PlayerMovement>();
-        if (movement != null) movement.enabled = false;
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        if (rb != null) rb.bodyType = RigidbodyType2D.Static;
+        if (isGameOver)
+        {
+            currentHealth = 0;
+        }
 
         SetSpritesEnabled(false);
 
-        StartCoroutine(RespawnSequence());
+        if (currentHealth <= 0)
+        {
+            StartCoroutine(GameOverSequence());
+        }
+        else
+        {
+            StartCoroutine(RespawnSequence());
+        }
     }
 
     IEnumerator RespawnSequence()
@@ -139,5 +146,10 @@ public class PlayerHealth : MonoBehaviour
         }
 
         SceneManager.LoadScene(gameOverSceneName);
+    }
+
+    public void TriggerGameOver()
+    {
+        Die(true);
     }
 }
