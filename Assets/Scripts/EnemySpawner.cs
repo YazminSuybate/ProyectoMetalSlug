@@ -54,11 +54,5 @@ public class EnemySpawner : MonoBehaviour
         if (spawnPoint == null) return;
 
         GameObject newEnemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-
-        SoldierMovement movementScript = newEnemy.GetComponent<SoldierMovement>();
-        if (movementScript != null)
-        {
-            movementScript.Jump();
-        }
     }
 }

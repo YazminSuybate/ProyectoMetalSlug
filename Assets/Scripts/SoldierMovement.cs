@@ -6,9 +6,6 @@ public class SoldierMovement : MonoBehaviour
     public float moveSpeed = 2f;
     public float jumpForce = 400f;
 
-    [Header("Patrol")]
-    public float patrolTime = 3f;
-
     [Header("IA/Melee Attack")]
     public float detectionRange = 7f;
     public float attackRange = 0.5f;
@@ -25,15 +22,20 @@ public class SoldierMovement : MonoBehaviour
     public Animator animator;
     public Transform soldierVisuals;
 
+    [Header("Patrol")]
+    public float patrolTime = 3f;
+    public float idleTime = 2f;
+
     // --- Variables Privadas ---
     private Rigidbody2D rb;
     private bool isGrounded;
     private int direction = 1;
     private float patrolTimer;
     private float attackTimer;
-    private Transform player;
     private bool isAttacking = false;
-
+    private float idleTimer;
+    private bool isPatrolMoving = true;
+    private Transform player;
     private const string IsRunningParam = "IsRunning";
     private const string JumpTrigger = "Jump";
     private const string AttackTrigger = "Attack";
@@ -62,6 +64,8 @@ public class SoldierMovement : MonoBehaviour
     {
         patrolTimer = patrolTime;
         attackTimer = 1f / attackRate;
+
+        idleTimer = idleTime;
 
         GameObject playerObj = GameObject.FindGameObjectWithTag(PlayerTag);
         if (playerObj != null)
@@ -106,7 +110,11 @@ public class SoldierMovement : MonoBehaviour
         bool hitWall = CheckForWall();
         if (isGrounded && hitWall && !isAttacking)
         {
-            Jump();
+            direction *= -1;
+            if (isPatrolMoving)
+            {
+                patrolTimer = patrolTime;
+            }
         }
 
         bool isMovingHorizontally = Mathf.Abs(rb.velocity.x) > 0.1f;
@@ -177,11 +185,25 @@ public class SoldierMovement : MonoBehaviour
 
     void Patrol()
     {
-        patrolTimer -= Time.deltaTime;
-        if (patrolTimer <= 0)
+        if (isPatrolMoving)
         {
-            direction *= -1;
-            patrolTimer = patrolTime;
+            patrolTimer -= Time.deltaTime;
+            if (patrolTimer <= 0)
+            {
+                direction = 0;
+                isPatrolMoving = false;
+                idleTimer = idleTime;
+            }
+        }
+        else
+        {
+            idleTimer -= Time.deltaTime;
+            if (idleTimer <= 0)
+            {
+                direction = (Random.Range(0, 2) == 0) ? 1 : -1;
+                isPatrolMoving = true;
+                patrolTimer = patrolTime;
+            }
         }
     }
 
