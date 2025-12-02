@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class SoldierMovement : MonoBehaviour
 {
-    // --- Configuración Pública ---
     [Header("Movement")]
     public float moveSpeed = 2f;
     public float jumpForce = 400f;
@@ -12,19 +11,14 @@ public class SoldierMovement : MonoBehaviour
 
     [Header("IA/Melee Attack")]
     public float detectionRange = 7f;
-    // Rango de ataque CORTÍSIMO para el cuchillo (ajustar en Unity)
     public float attackRange = 0.5f;
-    // Tasa de ataque: ataques por segundo
     public float attackRate = 1f;
-    // Daño que hace el ataque melee
     public int meleeDamage = 1;
-    // ¡ELIMINADO! public GameObject bulletPrefab; 
 
     [Header("Obstacle Check")]
     public Transform wallCheckPoint;
     public float wallCheckDistance = 0.5f;
     public LayerMask whatIsGround;
-    // Capa del Jugador para el OverlapCircle (DEBE ASIGNARSE en Unity)
     public LayerMask whatIsPlayer;
 
     [Header("References")]
@@ -36,15 +30,14 @@ public class SoldierMovement : MonoBehaviour
     private bool isGrounded;
     private int direction = 1;
     private float patrolTimer;
-    private float attackTimer; // Temporizador para controlar el ataque
+    private float attackTimer;
     private Transform player;
     private bool isAttacking = false;
 
-    // CONSTANTES
     private const string IsRunningParam = "IsRunning";
     private const string JumpTrigger = "Jump";
     private const string AttackTrigger = "Attack";
-    private const string PlayerTag = "Player"; // Tag del jugador
+    private const string PlayerTag = "Player";
 
     void Awake()
     {
@@ -70,7 +63,6 @@ public class SoldierMovement : MonoBehaviour
         patrolTimer = patrolTime;
         attackTimer = 1f / attackRate;
 
-        // Buscar el objeto del jugador por Tag
         GameObject playerObj = GameObject.FindGameObjectWithTag(PlayerTag);
         if (playerObj != null)
         {
@@ -83,27 +75,23 @@ public class SoldierMovement : MonoBehaviour
         SoldierHealth health = GetComponent<SoldierHealth>();
         if (health != null && health.isDead) return;
 
-        // 1. Lógica de IA - Determinar el comportamiento
         if (player != null)
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
             if (distanceToPlayer <= attackRange)
             {
-                // Estado: ATAQUE CUCHILLO (Melee)
                 AttemptMeleeAttack();
                 StopMovement();
                 FacePlayer();
             }
             else if (distanceToPlayer <= detectionRange)
             {
-                // Estado: PERSEGUIR (CHASE)
                 isAttacking = false;
                 ChasePlayer();
             }
             else
             {
-                // Estado: PATRULLA
                 isAttacking = false;
                 Patrol();
             }
@@ -113,20 +101,16 @@ public class SoldierMovement : MonoBehaviour
             Patrol();
         }
 
-        // 2. Ejecutar movimiento y volteo basado en la dirección
         ApplyMovementAndFlip();
 
-        // 3. Chequeo de obstáculos (Salto)
         bool hitWall = CheckForWall();
         if (isGrounded && hitWall && !isAttacking)
         {
             Jump();
         }
 
-        // 1. Comprueba si el soldado se está moviendo (usando una pequeña tolerancia de 0.1f)
         bool isMovingHorizontally = Mathf.Abs(rb.velocity.x) > 0.1f;
 
-        // 2. Está "Corriendo" si se está moviendo Y NO está atacando
         bool isRunning = isMovingHorizontally && !isAttacking;
 
         if (animator != null)
@@ -135,8 +119,6 @@ public class SoldierMovement : MonoBehaviour
         }
     }
 
-    // --- MÉTODOS DE ATAQUE MELEE ---
-
     void AttemptMeleeAttack()
     {
         isAttacking = true;
@@ -144,49 +126,31 @@ public class SoldierMovement : MonoBehaviour
 
         if (attackTimer <= 0)
         {
-            MeleeAttack(); // Ejecuta el ataque
+            MeleeAttack();
             attackTimer = 1f / attackRate;
         }
     }
 
     void MeleeAttack()
     {
-        // 1. Activar animación de ataque de cuchillo
         if (animator != null)
         {
             animator.SetTrigger(AttackTrigger);
         }
 
-        // 2. Detectar al jugador en el rango de ataque (OverlapCircle)
-        // Se usa la posición del soldado y la LayerMask del jugador.
         Collider2D hitPlayer = Physics2D.OverlapCircle(transform.position, attackRange, whatIsPlayer);
 
         if (hitPlayer != null && hitPlayer.CompareTag(PlayerTag))
         {
-            // ASUMIDO: El jugador tiene un script PlayerHealth con una función TakeDamage(int)
-            // Debes cambiar PlayerHealth por el nombre real de tu script de salud del jugador.
-            // Y la función por la que use tu script.
-
-            // Ejemplo (ASUMIDO):
-            // PlayerHealth playerHealth = hitPlayer.GetComponent<PlayerHealth>();
-            // if (playerHealth != null)
-            // {
-            //     playerHealth.TakeDamage(meleeDamage);
-            // } 
-
-            // Usaremos Debug.Log temporalmente hasta que se defina PlayerHealth
             Debug.Log("¡Cuchillazo! El soldado intentó dañar al jugador.");
         }
     }
 
-    // Método para dibujar el rango de ataque en el Editor (ayuda visual)
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
-
-    // --- MÉTODOS DE IA Y MOVIMIENTO (Sin cambios funcionales) ---
 
     void ChasePlayer()
     {
@@ -197,11 +161,11 @@ public class SoldierMovement : MonoBehaviour
     {
         if (player.position.x > transform.position.x)
         {
-            soldierVisuals.localScale = new Vector3(1, 1, 1);
+            soldierVisuals.localScale = new Vector3(-1, 1, 1);
         }
         else if (player.position.x < transform.position.x)
         {
-            soldierVisuals.localScale = new Vector3(-1, 1, 1);
+            soldierVisuals.localScale = new Vector3(1, 1, 1);
         }
         direction = (player.position.x > transform.position.x) ? 1 : -1;
     }
@@ -232,11 +196,11 @@ public class SoldierMovement : MonoBehaviour
         {
             if (direction > 0)
             {
-                soldierVisuals.localScale = new Vector3(1, 1, 1);
+                soldierVisuals.localScale = new Vector3(-1, 1, 1);
             }
             else if (direction < 0)
             {
-                soldierVisuals.localScale = new Vector3(-1, 1, 1);
+                soldierVisuals.localScale = new Vector3(1, 1, 1);
             }
         }
     }

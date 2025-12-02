@@ -6,7 +6,7 @@ public class SoldierHealth : MonoBehaviour
     public Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    public int health = 2;
+    public int health = 1;
 
     private const string DeathTrigger = "Die";
     private const string DeathTypeParam = "DeathType";
