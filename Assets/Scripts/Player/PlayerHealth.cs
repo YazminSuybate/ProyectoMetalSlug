@@ -20,6 +20,9 @@ public class PlayerHealth : MonoBehaviour
     [Header("Sprite Components")]
     public SpriteRenderer[] spriteRenderers;
 
+    [Header("HUD References")]
+    public PlayerLivesDisplay livesDisplay;
+
     private int currentHealth;
     private bool isDead = false;
     private bool isInvincible = false;
@@ -28,6 +31,12 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+
+        if (livesDisplay != null)
+        {
+            livesDisplay.UpdateDisplay(currentHealth);
+        }
+
         if (spriteRenderers == null || spriteRenderers.Length == 0)
         {
             Debug.LogError("PlayerHealth requiere uno o más SpriteRenderers asignados en el Inspector.");
@@ -46,6 +55,11 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         deathPosition = transform.position;
 
+        if (livesDisplay != null)
+        {
+            livesDisplay.UpdateDisplay(currentHealth);
+        }
+
         Die(false);
     }
 
@@ -57,6 +71,11 @@ public class PlayerHealth : MonoBehaviour
         if (isGameOver)
         {
             currentHealth = 0;
+        }
+
+        if (livesDisplay != null)
+        {
+            livesDisplay.UpdateDisplay(currentHealth);
         }
 
         SetSpritesEnabled(false);
@@ -81,15 +100,21 @@ public class PlayerHealth : MonoBehaviour
             yield break;
         }
 
-        // Respawn:
         transform.position = deathPosition;
 
         isDead = false;
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
         if (rb != null) rb.bodyType = RigidbodyType2D.Dynamic;
         PlayerMovement movement = GetComponent<PlayerMovement>();
+        
         if (movement != null) movement.enabled = true;
+
+        if (livesDisplay != null)
+        {
+            livesDisplay.UpdateDisplay(currentHealth);
+        }
 
         StartCoroutine(InvincibilityBlink());
     }

@@ -8,6 +8,8 @@ public class SoldierHealth : MonoBehaviour
 
     public int health = 1;
 
+    public int scoreValue = 100;
+
     private const string DeathTrigger = "Die";
     private const string DeathTypeParam = "DeathType";
     private const float TotalDeathTime = 1.0f;
@@ -34,7 +36,11 @@ public class SoldierHealth : MonoBehaviour
 
     void Die()
     {
+        if (isDead) return;
+
         isDead = true;
+
+        ScoreManager.AddScore(scoreValue);
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
