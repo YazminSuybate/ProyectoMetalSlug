@@ -250,6 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4810116774437378859}
   health: 1
+  scoreValue: 100
   isDead: 0
 --- !u!114 &-378906245802653739
 MonoBehaviour:

@@ -2,26 +2,25 @@ using UnityEngine;
 
 public class PlayerLivesDisplay : MonoBehaviour
 {
-    [Header("Sprites de Números")]
-    public Sprite[] numberSprites;
-
-    [Header("Dígitos del HUD")]
-    public SpriteRenderer unitRenderer; 
+    [Header("Sprites de Corazones (Vidas)")]
+    public SpriteRenderer[] heartRenderers;
 
     public void UpdateDisplay(int currentLives)
     {
-        if (numberSprites == null || numberSprites.Length < 10)
+        if (heartRenderers == null || heartRenderers.Length == 0)
         {
+            Debug.LogError("No hay SpriteRenderers de Corazones asignados en PlayerLivesDisplay.");
             return;
         }
 
         int lives = Mathf.Max(0, currentLives);
 
-        int unitDigit = lives % 10;
-        
-        if (unitRenderer != null)
+        for (int i = 0; i < heartRenderers.Length; i++)
         {
-            unitRenderer.sprite = numberSprites[unitDigit];
+            if (heartRenderers[i] != null)
+            {
+                heartRenderers[i].enabled = (i < lives);
+            }
         }
     }
 }

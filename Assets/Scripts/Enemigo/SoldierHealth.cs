@@ -8,7 +8,7 @@ public class SoldierHealth : MonoBehaviour
 
     public int health = 1;
 
-    public int scoreValue = 100;
+    public int scoreValue = 1000;
 
     private const string DeathTrigger = "Die";
     private const string DeathTypeParam = "DeathType";
